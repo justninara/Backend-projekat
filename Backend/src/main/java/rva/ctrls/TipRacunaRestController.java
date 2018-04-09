@@ -13,39 +13,39 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import rva.jpa.TipRacuna;
-
 import rva.rps.TipracunaRepository;
 
 @RestController
-
+@Api(tags = {"TipRacuna CRUD operacije"})
 
 public class TipRacunaRestController {
 	
 	@Autowired
 	private TipracunaRepository tipRacunaRepository;
 
-	@GetMapping("TipRacuna")
-	
+	@GetMapping("tipRacuna")
+	@ApiOperation(value = "Vrаća kolekciju svih tipova racuna iz baze podataka")
 	public Collection<TipRacuna> getTipRacuna(){
 		return tipRacunaRepository.findAll();
 	}
 	
-	@GetMapping("TipRacuna/{id}")
-	
+	@GetMapping("tipRacuna/{id}")
+	@ApiOperation(value = "Vrаća tip racuna iz baze podataka ciji je ID vrednost prosleđena kao path varijabla")
 	public TipRacuna getTipRacuna(@PathVariable("id") Integer id) {
 		return tipRacunaRepository.getOne(id);
 	}
 	
-	@GetMapping("TipRacunaNaziv/{naziv}")
-	
+	@GetMapping("tipRacunaNaziv/{naziv}")
+	@ApiOperation(value = "Vrаća tip racuna iz baze podataka koji u naziv sadrzi string prosleđen kao path varijabla")
 	public Collection<TipRacuna> getTipRacunaByNaziv(@PathVariable("naziv") String naziv){
 		return tipRacunaRepository.findByNazivContainingIgnoreCase(naziv);
 	}
 	
-	@DeleteMapping("TipRacuna/{id}")
-	
+	@DeleteMapping("tipRacuna/{id}")
+	@ApiOperation(value = "Briše tip racuna iz baze podataka ciji je ID vrednost prosleđena kao path varijabla")
 	public ResponseEntity<TipRacuna> deleteTipRacuna(@PathVariable ("id") Integer id){
 		if(!tipRacunaRepository.existsById(id))
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -54,8 +54,8 @@ public class TipRacunaRestController {
 	}
 	
 	// insert
-	@PostMapping("TipRacuna")
-	
+	@PostMapping("tipRacuna")
+	@ApiOperation(value = "Insertuje tip racuna u bazu podataka")
 	public ResponseEntity<TipRacuna> insertTipRacuna(@RequestBody TipRacuna tipRacuna){
 		if(tipRacunaRepository.existsById(tipRacuna.getId())) {
 			return new ResponseEntity<> (HttpStatus.CONFLICT);
@@ -65,8 +65,8 @@ public class TipRacunaRestController {
 	}
 	
 	// update
-	@PutMapping("TipRacuna")
-	
+	@PutMapping("tipRacuna")
+	@ApiOperation(value = "Modifikuje tip racuna iz baze podataka")
 	public ResponseEntity<TipRacuna> updateTipRacuna(@RequestBody TipRacuna tipRacuna){
 		if(tipRacunaRepository.existsById(tipRacuna.getId())) {
 			tipRacunaRepository.save(tipRacuna);

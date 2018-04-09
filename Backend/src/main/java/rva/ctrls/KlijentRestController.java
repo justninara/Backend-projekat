@@ -13,38 +13,38 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-
-
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import rva.jpa.Klijent;
 import rva.rps.KlijentRepository;
 
 @RestController
-
+@Api(tags = {"Klijent CRUD operacije"})
 
 public class KlijentRestController {
 	@Autowired
 	private KlijentRepository klijentRepository;
 
 	@GetMapping("klijent")
-	
+	@ApiOperation(value = "Vrаća kolekciju svih klijenata iz baze podataka")
 	public Collection<Klijent> getKlijent(){
 		return klijentRepository.findAll();
 	}
 	
 	@GetMapping("klijent/{id}")
-	
+	@ApiOperation(value = "Vrаća klijenta iz baze podataka ciji je ID vrednost prosleđena kao path varijabla")
 	public Klijent getKlijent(@PathVariable("id") Integer id) {
 		return klijentRepository.getOne(id);
 	}
 	
-	@GetMapping("KlijentIme/{ime}")
-
+	@GetMapping("klijentIme/{ime}")
+	@ApiOperation(value = "Vrаća klijenta iz baze podataka koji u ime sadrzi string prosleđen kao path varijabla")
 	public Collection<Klijent> getKlijentByIme(@PathVariable("ime") String ime){
 		return klijentRepository.findByImeContainingIgnoreCase(ime);
 	}
 	
-	@DeleteMapping("Klijent/{id}")
-	
+	@DeleteMapping("klijent/{id}")
+	@ApiOperation(value = "Briše klijenta iz baze podataka ciji je ID vrednost prosleđena kao path varijabla")
 	public ResponseEntity<Klijent> deleteKlijent(@PathVariable ("id") Integer id){
 		if(!klijentRepository.existsById(id))
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -53,26 +53,26 @@ public class KlijentRestController {
 	}
 	
 	// insert
-		@PostMapping("klijent")
+	@PostMapping("klijent")
+	@ApiOperation(value = "Insertuje klijenta u bazu podataka")
+	public ResponseEntity<Klijent> insertKlijent(@RequestBody Klijent klijent){
+		if(klijentRepository.existsById(klijent.getId())) {
+			return new ResponseEntity<> (HttpStatus.CONFLICT);
+		}
+		klijentRepository.save(klijent);
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
 		
-		public ResponseEntity<Klijent> insertKlijent(@RequestBody Klijent klijent){
-			if(klijentRepository.existsById(klijent.getId())) {
-				return new ResponseEntity<> (HttpStatus.CONFLICT);
-			}
+	// update
+	@PutMapping("klijent")
+	@ApiOperation(value = "Modifikuje klijenta iz baze podataka")
+	public ResponseEntity<Klijent> updateKlijent(@RequestBody Klijent klijent){
+		if(klijentRepository.existsById(klijent.getId())) {
 			klijentRepository.save(klijent);
-			return new ResponseEntity<>(HttpStatus.OK);
+			return new ResponseEntity<> (HttpStatus.OK);
 		}
-		
-		// update
-		@PutMapping("klijent")
-		
-		public ResponseEntity<Klijent> updateKlijent(@RequestBody Klijent klijent){
-			if(klijentRepository.existsById(klijent.getId())) {
-				klijentRepository.save(klijent);
-				return new ResponseEntity<> (HttpStatus.OK);
-			}
-			return new ResponseEntity<> (HttpStatus.NO_CONTENT);
-		}
+		return new ResponseEntity<> (HttpStatus.NO_CONTENT);
+	}
 
 		
 		

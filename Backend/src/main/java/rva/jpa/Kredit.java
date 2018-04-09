@@ -4,6 +4,7 @@ import java.io.Serializable;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.List;
 
@@ -14,6 +15,7 @@ import java.util.List;
  */
 @Entity
 @NamedQuery(name="Kredit.findAll", query="SELECT k FROM Kredit k")
+@JsonIgnoreProperties({"hibernateLazyInitalizer", "handler"})
 public class Kredit implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -30,7 +32,7 @@ public class Kredit implements Serializable {
 
 	//bi-directional many-to-one association to Klijent
 	@OneToMany(mappedBy="kredit")
-	@JsonIgnore
+	@JsonIgnore //fasterxml jackson
 	private List<Klijent> klijents;
 
 	public Kredit() {

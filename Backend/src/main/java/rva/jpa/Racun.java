@@ -3,6 +3,8 @@ package rva.jpa;
 import java.io.Serializable;
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 
 /**
  * The persistent class for the racun database table.
@@ -10,6 +12,7 @@ import javax.persistence.*;
  */
 @Entity
 @NamedQuery(name="Racun.findAll", query="SELECT r FROM Racun r")
+@JsonIgnoreProperties({"hibernateLazyInitalizer", "handler"})
 public class Racun implements Serializable {
 	private static final long serialVersionUID = 1L;
 
