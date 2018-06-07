@@ -5,6 +5,7 @@ import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -45,6 +46,7 @@ public class TipRacunaRestController {
 	}
 	
 	@DeleteMapping("tipRacuna/{id}")
+	@CrossOrigin
 	@ApiOperation(value = "Briše tip racuna iz baze podataka ciji je ID vrednost prosleđena kao path varijabla")
 	public ResponseEntity<TipRacuna> deleteTipRacuna(@PathVariable ("id") Integer id){
 		if(!tipRacunaRepository.existsById(id))
@@ -55,6 +57,7 @@ public class TipRacunaRestController {
 	
 	// insert
 	@PostMapping("tipRacuna")
+	@CrossOrigin
 	@ApiOperation(value = "Insertuje tip racuna u bazu podataka")
 	public ResponseEntity<TipRacuna> insertTipRacuna(@RequestBody TipRacuna tipRacuna){
 		if(tipRacunaRepository.existsById(tipRacuna.getId())) {
@@ -66,6 +69,7 @@ public class TipRacunaRestController {
 	
 	// update
 	@PutMapping("tipRacuna")
+	@CrossOrigin
 	@ApiOperation(value = "Modifikuje tip racuna iz baze podataka")
 	public ResponseEntity<TipRacuna> updateTipRacuna(@RequestBody TipRacuna tipRacuna){
 		if(tipRacunaRepository.existsById(tipRacuna.getId())) {

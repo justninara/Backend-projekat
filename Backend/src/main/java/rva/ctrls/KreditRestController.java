@@ -5,6 +5,7 @@ import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -44,6 +45,7 @@ public class KreditRestController {
 	}
 	
 	@DeleteMapping("kredit/{id}")
+	@CrossOrigin
 	@ApiOperation(value = "Briše kredit iz baze podataka ciji je ID vrednost prosleđena kao path varijabla")
 	public ResponseEntity<Kredit> deleteKredit(@PathVariable ("id") Integer id){
 		if(!kreditRepository.existsById(id))
@@ -55,6 +57,7 @@ public class KreditRestController {
 	
 	// insert
 	@PostMapping("kredit")
+	@CrossOrigin
 	@ApiOperation(value = "Insertuje kredit u bazu podataka")
 	public ResponseEntity<Kredit> insertKredit(@RequestBody Kredit kredit){
 		if(kreditRepository.existsById(kredit.getId())) {
@@ -66,6 +69,7 @@ public class KreditRestController {
 		
 	// update
 	@PutMapping("kredit")
+	@CrossOrigin
 	@ApiOperation(value = "Modifikuje kredit iz baze podataka")
 	public ResponseEntity<Kredit> updateKredit(@RequestBody Kredit kredit){
 		if(kreditRepository.existsById(kredit.getId())) {
